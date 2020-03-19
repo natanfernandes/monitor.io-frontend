@@ -19,10 +19,31 @@ import {
 } from "recharts";
 
 const data = [
-  { name: "15/03", value: 400 },
-  { name: "16/03", value: 4660 },
-  { name: "17/03", value: 4260 },
-  { name: "18/03", value: 6660 }
+  { name: "15/03", value: Math.floor(Math.random() * (500 - 0) + 10) },
+  { name: "16/03", value: Math.floor(Math.random() * (500 - 0) + 10) },
+  { name: "17/03", value: Math.floor(Math.random() * (500 - 0) + 10) },
+  { name: "18/03", value: Math.floor(Math.random() * (500 - 0) + 10) }
+];
+
+const data2 = [
+  { name: "15/03", value: Math.floor(Math.random() * (500 - 0) + 10) },
+  { name: "16/03", value: Math.floor(Math.random() * (500 - 0) + 10) },
+  { name: "17/03", value: Math.floor(Math.random() * (500 - 0) + 10) },
+  { name: "18/03", value: Math.floor(Math.random() * (500 - 0) + 10) }
+];
+
+const data3 = [
+  { name: "15/03", value: Math.floor(Math.random() * (500 - 0) + 10) },
+  { name: "16/03", value: Math.floor(Math.random() * (500 - 0) + 10) },
+  { name: "17/03", value: Math.floor(Math.random() * (500 - 0) + 10) },
+  { name: "18/03", value: Math.floor(Math.random() * (500 - 0) + 10) }
+];
+
+const data4 = [
+  { name: "15/03", value: Math.floor(Math.random() * (500 - 0) + 10) },
+  { name: "16/03", value: Math.floor(Math.random() * (500 - 0) + 10) },
+  { name: "17/03", value: Math.floor(Math.random() * (500 - 0) + 10) },
+  { name: "18/03", value: Math.floor(Math.random() * (500 - 0) + 10) }
 ];
 
 const useStyles = makeStyles(theme => ({
@@ -164,7 +185,7 @@ export default function Home() {
           >
             <ResponsiveContainer width="100%" aspect={2.0 / 1.0}>
               <LineChart
-                data={data}
+                data={data2}
                 margin={{ top: 30, right: 30, left: 20, bottom: 5 }}
               >
                 <Tooltip />
@@ -192,7 +213,7 @@ export default function Home() {
           >
             <ResponsiveContainer width="100%" aspect={2.0 / 1.0}>
               <LineChart
-                data={data}
+                data={data3}
                 margin={{ top: 30, right: 30, left: 20, bottom: 5 }}
               >
                 <Tooltip />
@@ -218,7 +239,7 @@ export default function Home() {
           >
             <ResponsiveContainer width="100%" aspect={2.0 / 1.0}>
               <LineChart
-                data={data}
+                data={data4}
                 margin={{ top: 30, right: 30, left: 20, bottom: 5 }}
               >
                 <Tooltip />

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, withRouter } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
@@ -7,8 +7,17 @@ import GroupIcon from "@material-ui/icons/Group";
 import Home from "@material-ui/icons/Home";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 
-export default function Header() {
+function Header(props) {
   const [value, setValue] = useState(2);
+  useEffect(() => {
+    if(props.location.pathname === '/'){
+      setValue(2)
+    } else if(props.location.pathname === '/risk-area'){
+      setValue(3)
+    } else {
+      setValue(0)
+    }
+  })
   return (
     <>
       <Grid
@@ -73,3 +82,4 @@ export default function Header() {
     </>
   );
 }
+export default withRouter(Header);

@@ -102,7 +102,7 @@ export default function CityMap(props) {
       style={{ margin: 10 }}
       className="markercluster-map"
       center={position}
-      zoom={10}
+      zoom={12}
     >
       <TileLayer
         attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'

@@ -1,61 +1,59 @@
-import React from "react";
-import { useStoreState, useStoreActions } from "easy-peasy";
+import React, { useState, useEffect } from "react";
 import HeatMap from "../../components/HeatMap";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-import { makeStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-import Visibility from "@material-ui/icons/Visibility";
-import VisibilityOff from "@material-ui/icons/VisibilityOff";
-
-const data = [
-  { name: "15/03", value: 400 },
-  { name: "16/03", value: 4660 },
-  { name: "17/03", value: 4260 },
-  { name: "18/03", value: 6660 }
-];
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1
-  },
-  paperGroup1: {
-    textAlign: "center",
-    padding: 0,
-    color: theme.palette.text.primary,
-    backgroundColor: "#FF415B",
-    margin: 10
-  },
-  paperGroup2: {
-    textAlign: "center",
-    padding: 0,
-    color: theme.palette.text.primary,
-    backgroundColor: "#FFCE00",
-    margin: 10
-  },
-  paperGroup3: {
-    textAlign: "center",
-    padding: 0,
-    color: theme.palette.text.primary,
-    backgroundColor: "#4949E7",
-    margin: 10
-  },
-  paperGroup4: {
-    textAlign: "center",
-    padding: 0,
-    color: theme.palette.text.primary,
-    backgroundColor: "#69E781",
-    margin: 10
-  }
-}));
+import Info from "@material-ui/icons/Info";
+import Location from "@material-ui/icons/LocationOn";
+import { getAddressInfo } from './services';
 
 export default function RiskArea() {
-  const classes = useStyles();
-
+  const [clickedPoint, setClickedPoint] = useState('Nenhum ponto clicado!')
+  const [clickedPointLatLng, setClickedPointLatLng] = useState(null)
+  const mapClick = async (latlng) => {
+    setClickedPoint('Carregando informações sobre o local...')
+    console.log(latlng)
+    setClickedPointLatLng(latlng)
+    const response = await getAddressInfo(latlng[0],latlng[1])
+    setClickedPoint(response.display_name)
+    console.log(response)
+  }
   return (
     <>
       <Grid item xs={12} sm={8}>
-        <HeatMap />
+        <HeatMap onClick={mapClick} />
+      </Grid>
+       <Grid item xs={12} sm={4}>
+         <Paper
+            elevation={5}
+            style={{ backgroundColor: "#6d6a6a", color: "white", margin:10, padding:0 }}
+          >
+            <Grid
+              container
+              direction="row"
+              justify="center"
+              alignItems="center"
+              style={{ padding: 10 }}
+            >
+            <Info></Info>
+            <h3 style={{textAlign:'justify'}}>
+            
+            Mapa de calor baseado nos <span style={{color:'#FF415B'}}>GRUPO 1</span> e <span style={{color:'#FFCE00'}}>GRUPO 2</span>,
+            para obter endereço de alguma area, basta clicar!</h3>
+            </Grid>
+
+            <Grid
+              container
+              direction="row"
+              justify="center"
+              alignItems="center"
+              style={{padding:10}}
+            >
+            <Location></Location>
+            <p style={{textAlign:'justify'}}>
+              {clickedPoint}
+            </p>
+            </Grid>
+          </Paper>
       </Grid>
     </>
   );
