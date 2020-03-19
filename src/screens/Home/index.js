@@ -1,11 +1,12 @@
-import React from "react";
-import { useStoreState } from "easy-peasy";
+import React, { useEffect } from "react";
+import { useStoreState, useStoreActions } from "easy-peasy";
 import CityMap from "../../components/Map";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import {
   LineChart,
   Line,
@@ -61,7 +62,7 @@ const useStyles = makeStyles(theme => ({
 export default function Home() {
   const classes = useStyles();
   const grupos = useStoreState(state => state.grupos);
-  console.log(grupos);
+  const setGroupVisible = useStoreActions(actions => actions.setGroupVisible);
 
   const identifyGroupClassName = grupo => {
     if (grupo.id === 1) {
@@ -105,13 +106,25 @@ export default function Home() {
                 alignItems="center"
                 style={{ margin: 5 }}
               >
-                <Button
-                  variant="contained"
-                  color="default"
-                  startIcon={<Visibility />}
-                >
-                  MOSTRAR NO MAPA
-                </Button>
+                {grupo.visible ? (
+                  <Button
+                    variant="contained"
+                    color="default"
+                    startIcon={<VisibilityOff />}
+                    onClick={() => setGroupVisible(grupo.id)}
+                  >
+                    RETIRAR NO MAPA
+                  </Button>
+                ) : (
+                  <Button
+                    variant="contained"
+                    color="default"
+                    startIcon={<Visibility />}
+                    onClick={() => setGroupVisible(grupo.id)}
+                  >
+                    MOSTRAR NO MAPA
+                  </Button>
+                )}
               </Grid>
             </Grid>
           </Paper>

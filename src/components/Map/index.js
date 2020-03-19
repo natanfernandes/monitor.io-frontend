@@ -1,22 +1,35 @@
 import React, { useState, useEffect } from "react";
-import { Map, TileLayer, Marker, Popup, LayerGroup } from "react-leaflet";
+import { useStoreState, useStoreActions } from 'easy-peasy'
+import { Map, TileLayer, Marker, Popup } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-markercluster";
 import L from "leaflet";
 
-export default function CityMap() {
-  const [positionsG1, setPositionsG1] = useState([]);
-  const [positionsG2, setPositionsG2] = useState([]);
-  const [positionsG3, setPositionsG3] = useState([]);
-  const [positionsG4, setPositionsG4] = useState([]);
-  const [showLayerGroup1, setShowLayerGroup1] = useState(false);
-  const [showLayerGroup2, setShowLayerGroup2] = useState(false);
-  const [showLayerGroup3, setShowLayerGroup3] = useState(false);
-  const [showLayerGroup4, setShowLayerGroup4] = useState(false);
-  const [mapRef, setMapRef] = useState(null);
-
-  useEffect(() => {
+export default function CityMap(props) {
+   useEffect(() => {
     renderRandomMarkers();
+     return () => {
+       cleanData()
+    };
   }, []);
+
+  const renderRandomMarkers = () => {
+    let latMin = -5.779283;
+    let latMax = -5.841105;
+    let lonMin = -35.199209;
+    let lonMax = -35.238331;
+    for (let i = 0; i < 1000; i++) {
+      let rLat = Math.random() * (latMax - latMin) + latMin;
+      let rLon = Math.random() * (lonMax - lonMin) + lonMin;
+      let user = {
+        position: [rLat, rLon],
+        group: Math.floor(Math.random() * 4) + 1
+      };
+      addDataToGroup(user);
+    }
+  };
+  const cleanData = useStoreActions(actions => actions.cleanData);
+  const addDataToGroup = useStoreActions(actions => actions.addDataToGroup);
+  const grupos = useStoreState(state => state.grupos);
 
   const iconG1 = new L.Icon({
     iconUrl: require("../../assets/icons/marker-g1.svg"),
@@ -73,30 +86,14 @@ export default function CityMap() {
       return iconG4;
     }
   };
-
-  const renderRandomMarkers = () => {
-    let latMin = -5.779283;
-    let latMax = -5.841105;
-    let lonMin = -35.199209;
-    let lonMax = -35.238331;
-    for (let i = 0; i < 500; i++) {
-      let rLat = Math.random() * (latMax - latMin) + latMin;
-      let rLon = Math.random() * (lonMax - lonMin) + lonMin;
-      let user = {
-        position: [rLat, rLon],
-        group: Math.floor(Math.random() * 4) + 1
-      };
-      if (user.group === 1) {
-        setPositionsG1(positionsG1 => [...positionsG1, user]);
-      } else if (user.group === 2) {
-        setPositionsG2(positionsG2 => [...positionsG2, user]);
-      } else if (user.group === 3) {
-        setPositionsG3(positionsG3 => [...positionsG3, user]);
-      } else {
-        setPositionsG4(positionsG4 => [...positionsG4, user]);
-      }
-    }
-  };
+// const createClusterCustomIcon = function (cluster) {
+//   console.log(cluster)
+//   return L.divIcon({
+//     html: `<div>${cluster.getChildCount()}</div>`,
+//     className: 'marker-cluster-custom',
+//     iconSize: L.point(40, 40, true),
+//   });
+// }
 
   const position = [-5.830984, -35.205123];
 
@@ -106,19 +103,20 @@ export default function CityMap() {
       className="markercluster-map"
       center={position}
       zoom={10}
-      ref={(ref) => setMapRef(ref)}
     >
       <TileLayer
         attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
         url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
       />
-      <MarkerClusterGroup>
-       {showLayerGroup1 ?  
-        <LayerGroup>
-          {positionsG1.map(user => (
+      <MarkerClusterGroup >
+       {grupos.map(grupo => {
+         if(grupo.visible && grupo.data.length !== 0){
+          return grupo.data.map(user => 
             <Marker position={user.position} icon={getIconMarker(user)} />
-          ))}
-        </LayerGroup>: null}
+          )
+         }
+         return null
+       }) }
       </MarkerClusterGroup>
     </Map>
   );

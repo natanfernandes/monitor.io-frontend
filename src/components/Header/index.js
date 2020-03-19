@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
@@ -46,15 +47,24 @@ export default function Header() {
         >
           <BottomNavigationAction
             label="Grupos de Risco"
+            component={Link}
+            to="/risk-groups"
+            style={{ textAlign: "center" }}
             icon={<GroupIcon style={{ fontSize: 40 }} />}
           />
           } />
           <BottomNavigationAction
             label="Página Principal"
+            component={Link}
+            to="/"
+            style={{ textAlign: "center" }}
             icon={<Home style={{ fontSize: 40 }} />}
           />
           <BottomNavigationAction
             label="Lugares de Risco"
+            component={Link}
+            to="/risk-area"
+            style={{ textAlign: "center" }}
             icon={<LocationOnIcon style={{ fontSize: 40 }} />}
           />
           } />
