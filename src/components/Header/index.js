@@ -6,7 +6,7 @@ import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import GroupIcon from "@material-ui/icons/Group";
 import Home from "@material-ui/icons/Home";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
-
+import Warning from "@material-ui/icons/Warning";
 function Header(props) {
   const [value, setValue] = useState(2);
   useEffect(() => {
@@ -14,7 +14,10 @@ function Header(props) {
       setValue(2)
     } else if(props.location.pathname === '/risk-area'){
       setValue(3)
-    } else {
+    }else if(props.location.pathname === '/alerts-and-messages') {
+      setValue(5)
+    }
+     else {
       setValue(0)
     }
   })
@@ -75,6 +78,14 @@ function Header(props) {
             to="/risk-area"
             style={{ textAlign: "center" }}
             icon={<LocationOnIcon style={{ fontSize: 40 }} />}
+          />
+          } />
+           <BottomNavigationAction
+            label="Alertas e Mensagens"
+            component={Link}
+            to="/alerts-and-messages"
+            style={{ textAlign: "center" }}
+            icon={<Warning style={{ fontSize: 40 }} />}
           />
           } />
         </BottomNavigation>

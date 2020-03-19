@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 import HomePage from "./screens/Home";
 import RiskArea from "./screens/RiskArea";
+import AlertsAndMessages from "./screens/AlertsAndMessages";
 import Header from "./components/Header";
 import model from "./model";
 import "./App.css";
@@ -18,6 +19,7 @@ function App() {
           <Header />
           <Switch>
             <Route exact path="/risk-area" component={RiskArea} />
+            <Route exact path="/alerts-and-messages" component={AlertsAndMessages} />
             <Route exact path="/" component={HomePage} />
           </Switch>
         </Grid>
