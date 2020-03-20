@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
+import Button from "@material-ui/core/Button";
+import Send from "@material-ui/icons/Send";
 import { useStoreState, useStoreActions } from "easy-peasy";
 import { Map, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 
 export default function RiskGroupMap(props) {
+  const [hospitais, setHospitais] = useState([]);
   const cleanData = useStoreActions(actions => actions.cleanData);
   const addDataToGroupRisk = useStoreActions(
     actions => actions.addDataToGroupRisk
@@ -12,6 +15,7 @@ export default function RiskGroupMap(props) {
   const mapRisk = useStoreState(state => state.mapRisk);
   useEffect(() => {
     renderRandomMarkers();
+    renderRandomHospitals()
     return () => {
       cleanData();
     };
@@ -27,7 +31,25 @@ export default function RiskGroupMap(props) {
     }
     return result;
   }
-
+  const renderRandomHospitals = () => {
+    let latMin = -5.779283;
+    let latMax = -5.841105;
+    let lonMin = -35.199209;
+    let lonMax = -35.238331;
+    let arr = [];
+    for (let i = 0; i < 12; i++) {
+      let rLat = Math.random() * (latMax - latMin) + latMin;
+      let rLon = Math.random() * (lonMax - lonMin) + lonMin;
+      let user = {
+        position: [rLat, rLon],
+        name: makeid(15),
+        vagas: Math.floor(Math.random() * 16) + 1,
+        medicos: Math.floor(Math.random() * 6) + 1
+      };
+      arr.push(user);
+    }
+    setHospitais(arr);
+  };
   const renderRandomMarkers = () => {
     let latMin = -5.779283;
     let latMax = -5.841105;
@@ -72,6 +94,16 @@ export default function RiskGroupMap(props) {
     iconSize: new L.Point(45, 60)
   });
 
+  const iconH = new L.Icon({
+    iconUrl: require("../../assets/icons/hospital.svg"),
+    iconRetinaUrl: require("../../assets/icons/hospital.svg"),
+    iconAnchor: null,
+    popupAnchor: [1, -25],
+    shadowUrl: null,
+    shadowSize: null,
+    shadowAnchor: null,
+    iconSize: new L.Point(50, 65)
+  });
   // const createClusterCustomIcon = function (cluster) {
   //   console.log(cluster)
   //   return L.divIcon({
@@ -100,6 +132,23 @@ export default function RiskGroupMap(props) {
             <p style={{ fontSize: 20 }}>Nome : {user.name}</p>
             <p style={{ fontSize: 20 }}>Idade : {user.idade}</p>
             <p style={{ fontSize: 20 }}>Grupo : {user.group}</p>
+          </Popup>
+          
+        </Marker>
+      ))}
+       {hospitais.map(user => (
+        <Marker position={user.position} icon={iconH}>
+          <Popup>
+            <p style={{ fontSize: 20 }}>Unidade de saúde {user.name}</p>
+            <p style={{ fontSize: 20 }}>Vagas : {user.vagas}</p>
+            <p style={{ fontSize: 20 }}>Médicos disponíveis : {user.medicos}</p>
+            <Button
+              variant="contained"
+              color="default"
+              startIcon={<Send />}
+            >
+              ENVIAR MENSAGEM
+            </Button>
           </Popup>
         </Marker>
       ))}

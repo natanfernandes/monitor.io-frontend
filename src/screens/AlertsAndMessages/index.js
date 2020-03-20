@@ -177,7 +177,7 @@ export default function AlertsAndMessages() {
           <DialogTitle id="form-dialog-title">Enviar alerta</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Para enviar um alerta escolha um o destinatário e escreve a
+              Para enviar um alerta escolha um destinatário e escreva a
               mensagem a ser exibida no alerta!
             </DialogContentText>
             <FormControl className={classes.formControl}>
@@ -248,7 +248,7 @@ export default function AlertsAndMessages() {
           <DialogTitle id="form-dialog-title">Enviar mensagem</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Para enviar uma mensagem escolha um o destinatário e escreva a
+              Para enviar uma mensagem escolha um destinatário e escreva a
               mensagem a ser enviada!
             </DialogContentText>
             <Autocomplete
