@@ -34,6 +34,15 @@ export default {
       data: []
     }
   ],
+  usuariosDeRisco: {
+    data: [],
+    qtd: 0
+  },
+  mapRisk: {
+    center: [-5.830984, -35.205123],
+    zoomLevel: 13
+  },
+  mapCluster : true,
   //actions
   setGroupVisible: action((state, id) => {
     state.grupos.map(grupo => {
@@ -42,6 +51,9 @@ export default {
       }
       return grupo;
     });
+  }),
+  setMapCluster: action((state) => {
+    state.mapCluster = !state.mapCluster
   }),
   addDataToGroup: action((state, user) => {
     state.grupos.map(grupo => {
@@ -52,11 +64,22 @@ export default {
       return grupo;
     });
   }),
-  cleanData: action((state) => {
+  addDataToGroupRisk: action((state, user) => {
+    state.usuariosDeRisco.data.push(user);
+    state.usuariosDeRisco.qtd += 1;
+  }),
+  setMapRisk: action((state, obj) => {
+    state.mapRisk.center = obj.center;
+    if (obj.zoom !== state.mapRisk.zoomLevel) {
+      state.mapRisk.zoomLevel = obj.zoom;
+    }
+  }),
+
+  cleanData: action(state => {
     state.grupos.map(grupo => {
-        grupo.data = []
-        grupo.qtd = 0
-        return grupo
+      grupo.data = [];
+      grupo.qtd = 0;
+      return grupo;
     });
   })
 };
